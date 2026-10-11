@@ -1,0 +1,144 @@
+.my-quizzes-page {
+  min-height: 100vh;
+  padding: 50px 20px;
+  background: #f5f7fb;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page-header h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.page-header p {
+  color: #666;
+  font-size: 16px;
+}
+
+.quiz-list {
+  max-width: 900px;
+  margin: auto;
+  display: grid;
+  gap: 20px;
+}
+
+.quiz-card {
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.quiz-info h2 {
+  margin: 0 0 12px;
+  color: #222;
+}
+
+.quiz-info p {
+  margin: 6px 0;
+  color: #666;
+}
+
+.quiz-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 150px;
+}
+
+.results-btn,
+.take-btn,
+.primary-btn,
+.back-btn {
+  border: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.results-btn {
+  background: #111827;
+  color: white;
+}
+
+.take-btn {
+  background: #e5e7eb;
+  color: #222;
+}
+
+.primary-btn {
+  background: #111827;
+  color: white;
+  margin-top: 15px;
+}
+
+.results-btn:hover,
+.primary-btn:hover {
+  opacity: 0.9;
+}
+
+.take-btn:hover {
+  background: #d1d5db;
+}
+
+.empty-state {
+  max-width: 500px;
+  margin: 80px auto;
+  text-align: center;
+  background: white;
+  padding: 45px 25px;
+  border-radius: 18px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.empty-icon {
+  font-size: 55px;
+  margin-bottom: 15px;
+}
+
+.empty-state h2 {
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  color: #666;
+}
+
+.back-btn {
+  display: block;
+  margin: 35px auto 0;
+  background: transparent;
+  color: #333;
+}
+
+@media (max-width: 700px) {
+
+  .page-header h1 {
+    font-size: 28px;
+  }
+
+  .quiz-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .quiz-actions {
+    width: 100%;
+  }
+
+  .results-btn,
+  .take-btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,968 @@
+<div class="take-page">
+
+  <!-- ========================= -->
+  <!-- TOP HEADER -->
+  <!-- ========================= -->
+
+  <header class="quiz-header">
+
+    <button
+      class="back-btn"
+      type="button"
+      (click)="goHome()"
+    >
+      ← Home
+    </button>
+
+    <div class="header-center">
+
+      <span class="header-label">
+        FRIEND QUIZ
+      </span>
+
+      <h1>
+        {{ quiz?.creatorName }}'s Favorites
+      </h1>
+
+      <p>
+        Let's see how well you know your friend!
+      </p>
+
+    </div>
+
+  </header>
+
+
+  <!-- ========================= -->
+  <!-- START SCREEN -->
+  <!-- ========================= -->
+
+  <section
+    class="start-card"
+    *ngIf="quiz && !quizStarted && !quizFinished && !showSavedResult"
+  >
+
+    <div class="start-icon">
+      🎯
+    </div>
+
+    <span class="small-title">
+      YOU'VE BEEN INVITED
+    </span>
+
+    <h2>
+      Take {{ quiz.creatorName }}'s Quiz
+    </h2>
+
+    <p class="start-description">
+      Answer 10 questions about {{ quiz.creatorName }}
+      and find out how well you know them.
+    </p>
+
+
+    <!-- Friend Name -->
+
+    <div class="name-section">
+
+      <label>
+        Your Name
+      </label>
+
+      <input
+        type="text"
+        [(ngModel)]="friendName"
+        placeholder="Enter your name..."
+        (keyup.enter)="startQuiz()"
+      />
+
+    </div>
+
+
+    <!-- Start Quiz -->
+
+    <button
+      class="start-btn"
+      type="button"
+      (click)="startQuiz()"
+    >
+
+      Start Quiz
+
+      <span>
+        →
+      </span>
+
+    </button>
+
+
+    <div class="question-info">
+      10 Questions • 4 Options Each
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- SAVED RESULT OPTION -->
+    <!-- ========================= -->
+
+    <div class="saved-result-divider">
+
+      <span>
+        OR
+      </span>
+
+    </div>
+
+
+    <div class="saved-result-box">
+
+      <div class="saved-result-icon">
+        📊
+      </div>
+
+      <div class="saved-result-content">
+
+        <strong>
+          Already Completed?
+        </strong>
+
+        <p>
+          Enter your Result ID to check your score and position.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="result-id-input">
+
+      <input
+        type="text"
+        [(ngModel)]="currentResultId"
+        placeholder="Enter your Result ID"
+        (keyup.enter)="findSavedResult()"
+      />
+
+      <button
+        type="button"
+        (click)="findSavedResult()"
+      >
+        View Result
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- ========================= -->
+  <!-- QUIZ SCREEN -->
+  <!-- ========================= -->
+
+  <section
+    class="quiz-section"
+    *ngIf="quiz && quizStarted && !quizFinished"
+  >
+
+    <!-- Progress -->
+
+    <div class="progress-area">
+
+      <div class="progress-top">
+
+        <span>
+          Question {{ currentQuestionIndex + 1 }}
+          of {{ quiz.questions.length }}
+        </span>
+
+        <span>
+          Score: {{ score }}
+        </span>
+
+      </div>
+
+
+      <div class="progress-bar">
+
+        <div
+          class="progress-fill"
+          [style.width.%]="
+            ((currentQuestionIndex + 1) / quiz.questions.length) * 100
+          "
+        ></div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Question -->
+
+    <div class="question-card">
+
+      <div class="question-number">
+
+        Q{{ currentQuestionIndex + 1 }}
+
+      </div>
+
+
+      <h2>
+
+        {{ quiz.questions[currentQuestionIndex].text }}
+
+      </h2>
+
+
+      <!-- Options -->
+
+      <div class="answers">
+
+
+        <!-- A -->
+
+        <button
+          type="button"
+          class="answer-option"
+          [class.correct]="getOptionClass('A') === 'correct'"
+          [class.wrong]="getOptionClass('A') === 'wrong'"
+          [disabled]="answerChecked"
+          (click)="selectAnswer('A')"
+        >
+
+          <span class="answer-letter">
+            A
+          </span>
+
+          <span class="answer-text">
+
+            {{ quiz.questions[currentQuestionIndex].options.A }}
+
+          </span>
+
+
+          <span
+            class="answer-status"
+            *ngIf="
+              answerChecked &&
+              getOptionClass('A') === 'correct'
+            "
+          >
+            ✓
+          </span>
+
+
+          <span
+            class="answer-status"
+            *ngIf="
+              answerChecked &&
+              getOptionClass('A') === 'wrong'
+            "
+          >
+            ✕
+          </span>
+
+        </button>
+
+
+        <!-- B -->
+
+        <button
+          type="button"
+          class="answer-option"
+          [class.correct]="getOptionClass('B') === 'correct'"
+          [class.wrong]="getOptionClass('B') === 'wrong'"
+          [disabled]="answerChecked"
+          (click)="selectAnswer('B')"
+        >
+
+          <span class="answer-letter">
+            B
+          </span>
+
+          <span class="answer-text">
+
+            {{ quiz.questions[currentQuestionIndex].options.B }}
+
+          </span>
+
+
+          <span
+            class="answer-status"
+            *ngIf="
+              answerChecked &&
+              getOptionClass('B') === 'correct'
+            "
+          >
+            ✓
+          </span>
+
+
+          <span
+            class="answer-status"
+            *ngIf="
+              answerChecked &&
+              getOptionClass('B') === 'wrong'
+            "
+          >
+            ✕
+          </span>
+
+        </button>
+
+
+        <!-- C -->
+
+        <button
+          type="button"
+          class="answer-option"
+          [class.correct]="getOptionClass('C') === 'correct'"
+          [class.wrong]="getOptionClass('C') === 'wrong'"
+          [disabled]="answerChecked"
+          (click)="selectAnswer('C')"
+        >
+
+          <span class="answer-letter">
+            C
+          </span>
+
+          <span class="answer-text">
+
+            {{ quiz.questions[currentQuestionIndex].options.C }}
+
+          </span>
+
+
+          <span
+            class="answer-status"
+            *ngIf="
+              answerChecked &&
+              getOptionClass('C') === 'correct'
+            "
+          >
+            ✓
+          </span>
+
+
+          <span
+            class="answer-status"
+            *ngIf="
+              answerChecked &&
+              getOptionClass('C') === 'wrong'
+            "
+          >
+            ✕
+          </span>
+
+        </button>
+
+
+        <!-- D -->
+
+        <button
+          type="button"
+          class="answer-option"
+          [class.correct]="getOptionClass('D') === 'correct'"
+          [class.wrong]="getOptionClass('D') === 'wrong'"
+          [disabled]="answerChecked"
+          (click)="selectAnswer('D')"
+        >
+
+          <span class="answer-letter">
+            D
+          </span>
+
+          <span class="answer-text">
+
+            {{ quiz.questions[currentQuestionIndex].options.D }}
+
+          </span>
+
+
+          <span
+            class="answer-status"
+            *ngIf="
+              answerChecked &&
+              getOptionClass('D') === 'correct'
+            "
+          >
+            ✓
+          </span>
+
+
+          <span
+            class="answer-status"
+            *ngIf="
+              answerChecked &&
+              getOptionClass('D') === 'wrong'
+            "
+          >
+            ✕
+          </span>
+
+        </button>
+
+      </div>
+
+
+      <!-- Correct Feedback -->
+
+      <div
+        class="feedback correct-feedback"
+        *ngIf="
+          answerChecked &&
+          selectedAnswer === quiz.questions[currentQuestionIndex].correctAnswer
+        "
+      >
+
+        <div class="feedback-icon">
+          ✓
+        </div>
+
+        <div>
+
+          <strong>
+            Correct! 🎉
+          </strong>
+
+          <p>
+            Great job, {{ friendName }}!
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- Wrong Feedback -->
+
+      <div
+        class="feedback wrong-feedback"
+        *ngIf="
+          answerChecked &&
+          selectedAnswer !== quiz.questions[currentQuestionIndex].correctAnswer
+        "
+      >
+
+        <div class="feedback-icon">
+          ✕
+        </div>
+
+        <div>
+
+          <strong>
+            Wrong Answer
+          </strong>
+
+          <p>
+
+            Correct answer:
+
+            <strong>
+              {{ getCorrectAnswerText() }}
+            </strong>
+
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- Next -->
+
+      <button
+        class="next-btn"
+        type="button"
+        *ngIf="answerChecked"
+        (click)="nextQuestion()"
+      >
+
+        <span>
+
+          {{
+            currentQuestionIndex === quiz.questions.length - 1
+              ? 'See My Result'
+              : 'Next Question'
+          }}
+
+        </span>
+
+        <span>
+          →
+        </span>
+
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- ========================= -->
+  <!-- RESULT SCREEN -->
+  <!-- ========================= -->
+
+  <section
+    class="result-card"
+    *ngIf="quizFinished && quiz && !showSavedResult"
+  >
+
+    <div class="result-icon">
+      🏆
+    </div>
+
+    <span class="small-title">
+      QUIZ COMPLETED
+    </span>
+
+
+    <h2>
+      Well Done, {{ friendName }}!
+    </h2>
+
+
+    <p>
+      You completed {{ quiz.creatorName }}'s favorite-things quiz.
+    </p>
+
+
+    <!-- Score -->
+
+    <div class="score-box">
+
+      <div class="score-label">
+        YOUR SCORE
+      </div>
+
+      <div class="score">
+
+        {{ score }}
+
+        <span>
+          / {{ quiz.questions.length }}
+        </span>
+
+      </div>
+
+      <div class="percentage">
+        {{ getPercentage() }}%
+      </div>
+
+    </div>
+
+
+    <p class="result-message">
+
+      You got
+
+      <strong>
+        {{ score }}
+      </strong>
+
+      out of
+
+      <strong>
+        {{ quiz.questions.length }}
+      </strong>
+
+      questions correct.
+
+    </p>
+
+
+    <!-- ========================= -->
+    <!-- RESULT ID -->
+    <!-- ========================= -->
+
+    <div class="result-id-box">
+
+      <div class="result-id-icon">
+        🔑
+      </div>
+
+      <div class="result-id-content">
+
+        <span>
+          YOUR RESULT ID
+        </span>
+
+        <strong>
+          {{ currentResultId }}
+        </strong>
+
+        <p>
+          Save this ID to check your result and position later.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- MY POSITION -->
+    <!-- ========================= -->
+
+    <div class="my-position">
+
+      <div class="position-icon">
+        🎖️
+      </div>
+
+      <div>
+
+        <span>
+          YOUR POSITION
+        </span>
+
+        <strong>
+          #{{ getCurrentRank() }}
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- FULL RANKING -->
+    <!-- ========================= -->
+
+    <div class="ranking-section">
+
+      <div class="ranking-heading">
+
+        <span>
+          🏆
+        </span>
+
+        <div>
+
+          <h3>
+            Quiz Ranking
+          </h3>
+
+          <p>
+            See how everyone performed
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="ranking-list"
+        *ngIf="ranking.length > 0"
+      >
+
+        <div
+          class="ranking-item"
+          *ngFor="let result of ranking; let i = index"
+          [class.my-ranking]="
+            result.resultId === currentResultId
+          "
+        >
+
+          <!-- Position -->
+
+          <div class="rank-number">
+
+            <span *ngIf="i === 0">
+              🥇
+            </span>
+
+            <span *ngIf="i === 1">
+              🥈
+            </span>
+
+            <span *ngIf="i === 2">
+              🥉
+            </span>
+
+            <span *ngIf="i > 2">
+              {{ i + 1 }}
+            </span>
+
+          </div>
+
+
+          <!-- Name -->
+
+          <div class="rank-name">
+
+            <strong>
+              {{ result.friendName }}
+            </strong>
+
+            <small
+              *ngIf="
+                result.resultId === currentResultId
+              "
+            >
+              You
+            </small>
+
+          </div>
+
+
+          <!-- Score -->
+
+          <div class="rank-score">
+
+            <strong>
+              {{ result.score }}/{{ result.totalQuestions }}
+            </strong>
+
+            <span>
+              {{ result.percentage }}%
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Buttons -->
+
+    <div class="result-buttons">
+
+      <button
+        type="button"
+        class="play-again-btn"
+        (click)="playAgain()"
+      >
+        🔄 Play Again
+      </button>
+
+
+      <button
+        type="button"
+        class="home-result-btn"
+        (click)="goHome()"
+      >
+        🏠 Home
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- ========================= -->
+  <!-- SAVED RESULT SCREEN -->
+  <!-- ========================= -->
+
+  <section
+    class="result-card saved-result-screen"
+    *ngIf="showSavedResult && savedResult && quiz"
+  >
+
+    <div class="result-icon">
+      🔎
+    </div>
+
+    <span class="small-title">
+      SAVED RESULT
+    </span>
+
+
+    <h2>
+      Welcome Back, {{ savedResult.friendName }}!
+    </h2>
+
+
+    <p>
+      Here is your current result and position in
+      {{ quiz.creatorName }}'s quiz.
+    </p>
+
+
+    <!-- Score -->
+
+    <div class="score-box">
+
+      <div class="score-label">
+        YOUR SCORE
+      </div>
+
+      <div class="score">
+
+        {{ savedResult.score }}
+
+        <span>
+          / {{ savedResult.totalQuestions }}
+        </span>
+
+      </div>
+
+      <div class="percentage">
+        {{ savedResult.percentage }}%
+      </div>
+
+    </div>
+
+
+    <!-- Current Position -->
+
+    <div class="my-position">
+
+      <div class="position-icon">
+        🎖️
+      </div>
+
+      <div>
+
+        <span>
+          YOUR CURRENT POSITION
+        </span>
+
+        <strong>
+          #{{ getCurrentRank() }}
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <!-- Ranking -->
+
+    <div class="ranking-section">
+
+      <div class="ranking-heading">
+
+        <span>
+          🏆
+        </span>
+
+        <div>
+
+          <h3>
+            Quiz Ranking
+          </h3>
+
+          <p>
+            Your position can change when new people complete the quiz.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="ranking-list"
+        *ngIf="ranking.length > 0"
+      >
+
+        <div
+          class="ranking-item"
+          *ngFor="let result of ranking; let i = index"
+          [class.my-ranking]="
+            result.resultId === currentResultId
+          "
+        >
+
+          <div class="rank-number">
+
+            <span *ngIf="i === 0">
+              🥇
+            </span>
+
+            <span *ngIf="i === 1">
+              🥈
+            </span>
+
+            <span *ngIf="i === 2">
+              🥉
+            </span>
+
+            <span *ngIf="i > 2">
+              {{ i + 1 }}
+            </span>
+
+          </div>
+
+
+          <div class="rank-name">
+
+            <strong>
+              {{ result.friendName }}
+            </strong>
+
+            <small
+              *ngIf="
+                result.resultId === currentResultId
+              "
+            >
+              You
+            </small>
+
+          </div>
+
+
+          <div class="rank-score">
+
+            <strong>
+              {{ result.score }}/{{ result.totalQuestions }}
+            </strong>
+
+            <span>
+              {{ result.percentage }}%
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Buttons -->
+
+    <div class="result-buttons">
+
+      <button
+        type="button"
+        class="home-result-btn"
+        (click)="closeSavedResult()"
+      >
+        ← Back
+      </button>
+
+      <button
+        type="button"
+        class="home-result-btn"
+        (click)="goHome()"
+      >
+        🏠 Home
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- ========================= -->
+  <!-- FOOTER -->
+  <!-- ========================= -->
+
+  <footer>
+
+    Made with ❤️ by
+
+    <strong>
+      ArainDeveloper
+    </strong>
+
+  </footer>
+
+</div>

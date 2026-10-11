@@ -1,0 +1,364 @@
+<div class="create-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <button class="back-btn" (click)="goHome()">
+      ← Back to Home
+    </button>
+
+    <div class="header-content">
+      <span class="small-label">CREATE YOUR QUIZ</span>
+      <h1>Create My Favorites</h1>
+      <p>
+        Add your favorite things and let your friends guess how well they know you.
+      </p>
+    </div>
+  </div>
+
+
+  <!-- Quiz Created Successfully -->
+  <div class="success-card" *ngIf="quizCreated">
+
+    <div class="success-icon">
+      ✓
+    </div>
+
+    <h2>Your Quiz is Ready! 🎉</h2>
+
+    <p>
+      Your quiz has been created successfully.
+      Copy the link below and send it to your friend.
+    </p>
+
+    <div class="creator-display">
+      Quiz by <strong>{{ creatorName }}</strong>
+    </div>
+
+    <div class="share-box">
+
+      <label>Your Quiz Link</label>
+
+      <div class="link-row">
+
+        <input
+          type="text"
+          [value]="shareLink"
+          readonly
+        />
+
+        <button
+          type="button"
+          class="copy-btn"
+          (click)="copyLink()"
+        >
+          📋 Copy Link
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="share-buttons">
+
+      <button
+        type="button"
+        class="share-btn"
+        (click)="copyLink()"
+      >
+        🔗 Copy & Share
+      </button>
+
+      <button
+        type="button"
+        class="home-btn"
+        (click)="goHome()"
+      >
+        🏠 Go to Home
+      </button>
+
+    </div>
+    <button
+  type="button"
+  class="results-btn"
+  (click)="goToCreatorResults()"
+>
+  📊 View My Results
+</button>
+
+    <p class="share-note">
+      Send this link to your friend. When they open it, they will be able
+      to take your favorite-things quiz.
+    </p>
+
+  </div>
+
+
+  <!-- Create Quiz Form -->
+  <div class="quiz-container" *ngIf="!quizCreated">
+
+    <!-- Creator Name -->
+    <div class="creator-card">
+
+      <div class="card-number">
+        01
+      </div>
+
+      <div class="card-content">
+
+        <h2>Your Name</h2>
+
+        <p>
+          Enter your name. Your friends will see this when they open your quiz.
+        </p>
+
+        <input
+          type="text"
+          class="name-input"
+          placeholder="Enter your name..."
+          [(ngModel)]="creatorName"
+        />
+
+      </div>
+
+    </div>
+
+
+    <!-- Questions -->
+    <div class="questions-heading">
+
+      <span>02</span>
+
+      <div>
+        <h2>Your Favorite Things</h2>
+
+        <p>
+          Edit each question, add four options, and select the correct answer.
+        </p>
+      </div>
+
+    </div>
+
+
+    <!-- Question Cards -->
+    <div
+      class="question-card"
+      *ngFor="let question of questions; let i = index"
+    >
+
+      <!-- Question Number -->
+      <div class="question-number">
+        {{ i + 1 }}
+      </div>
+
+
+      <div class="question-content">
+
+        <!-- Question -->
+        <label>
+          Question {{ i + 1 }}
+        </label>
+
+        <input
+          type="text"
+          class="question-input"
+          [(ngModel)]="question.text"
+          placeholder="Enter your question..."
+        />
+
+
+        <!-- Options -->
+        <div class="options-title">
+          <span>Answer Options</span>
+          <small>Select the correct answer</small>
+        </div>
+
+
+        <div class="options-grid">
+
+          <!-- A -->
+          <div
+            class="option-box"
+            [class.correct]="question.correctAnswer === 'A'"
+          >
+
+            <div class="option-letter">
+              A
+            </div>
+
+            <input
+              type="text"
+              [(ngModel)]="question.options.A"
+              placeholder="Option A"
+            />
+
+            <label class="correct-radio">
+              <input
+                type="radio"
+                [name]="'correct-' + i"
+                value="A"
+                [(ngModel)]="question.correctAnswer"
+              />
+
+              <span>Correct</span>
+            </label>
+
+          </div>
+
+
+          <!-- B -->
+          <div
+            class="option-box"
+            [class.correct]="question.correctAnswer === 'B'"
+          >
+
+            <div class="option-letter">
+              B
+            </div>
+
+            <input
+              type="text"
+              [(ngModel)]="question.options.B"
+              placeholder="Option B"
+            />
+
+            <label class="correct-radio">
+              <input
+                type="radio"
+                [name]="'correct-' + i"
+                value="B"
+                [(ngModel)]="question.correctAnswer"
+              />
+
+              <span>Correct</span>
+            </label>
+
+          </div>
+
+
+          <!-- C -->
+          <div
+            class="option-box"
+            [class.correct]="question.correctAnswer === 'C'"
+          >
+
+            <div class="option-letter">
+              C
+            </div>
+
+            <input
+              type="text"
+              [(ngModel)]="question.options.C"
+              placeholder="Option C"
+            />
+
+            <label class="correct-radio">
+              <input
+                type="radio"
+                [name]="'correct-' + i"
+                value="C"
+                [(ngModel)]="question.correctAnswer"
+              />
+
+              <span>Correct</span>
+            </label>
+
+          </div>
+
+
+          <!-- D -->
+          <div
+            class="option-box"
+            [class.correct]="question.correctAnswer === 'D'"
+          >
+
+            <div class="option-letter">
+              D
+            </div>
+
+            <input
+              type="text"
+              [(ngModel)]="question.options.D"
+              placeholder="Option D"
+            />
+
+            <label class="correct-radio">
+              <input
+                type="radio"
+                [name]="'correct-' + i"
+                value="D"
+                [(ngModel)]="question.correctAnswer"
+              />
+
+              <span>Correct</span>
+            </label>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Create Button -->
+    <div class="create-section">
+
+      <button
+        type="button"
+        class="create-btn"
+        (click)="saveQuiz()"
+      >
+        <span>Create My Quiz</span>
+        <span class="arrow">→</span>
+      </button>
+
+      <p>
+        After creating your quiz, you'll get a shareable link.
+      </p>
+
+    </div>
+
+
+
+  </div>
+
+
+  <<!-- Footer -->
+<footer class="footer">
+  <p>
+    Made with ❤️ by <strong>ArainDeveloper</strong>
+  </p>
+
+  <div class="social-icons">
+
+    <!-- GitHub -->
+    <a
+      href="https://github.com/AsadullahWeb"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+
+    <!-- TikTok -->
+    <a
+      href="https://www.tiktok.com/@araindeveloper"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="TikTok">
+      <i class="fab fa-tiktok"></i>
+    </a>
+
+    <!-- Portfolio -->
+    <a
+      href="https://asadullaharain.vercel.app"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Portfolio"
+      title="My Portfolio">
+      <i class="fas fa-briefcase"></i>
+    </a>
+
+  </div>
+</footer>

@@ -1,0 +1,92 @@
+.navbar {
+height: 76px;
+width: 100%;
+padding: 0 7%;
+display: flex;
+align-items: center;
+justify-content: space-between;
+background: #ffffff;
+border-bottom: 1px solid #edf0f5;
+position: sticky;
+top: 0;
+z-index: 1000;
+}
+
+.logo {
+font-size: 25px;
+font-weight: 800;
+color: #172033;
+}
+
+.logo span {
+color: #635bff;
+}
+
+.nav-links {
+display: flex;
+gap: 35px;
+}
+
+.nav-links a {
+text-decoration: none;
+color: #667085;
+font-size: 15px;
+font-weight: 600;
+}
+
+.nav-links a:hover {
+color: #635bff;
+}
+
+.nav-buttons {
+display: flex;
+gap: 10px;
+}
+
+.login-btn,
+.register-btn {
+border: none;
+padding: 10px 20px;
+border-radius: 8px;
+font-size: 14px;
+font-weight: 700;
+cursor: pointer;
+}
+
+.login-btn {
+background: transparent;
+color: #172033;
+}
+
+.login-btn:hover {
+color: #635bff;
+}
+
+.register-btn {
+background: #635bff;
+color: white;
+}
+
+.register-btn:hover {
+background: #5149e8;
+}
+
+@media (max-width: 700px) {
+
+.navbar {
+padding: 0 5%;
+}
+
+.nav-links {
+display: none;
+}
+
+.login-btn {
+display: none;
+}
+
+.register-btn {
+padding: 9px 14px;
+}
+
+}

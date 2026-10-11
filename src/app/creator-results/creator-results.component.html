@@ -1,0 +1,223 @@
+<div class="results-page">
+
+  <div class="results-container">
+
+    <!-- Loading -->
+    <div class="loading-box" *ngIf="loading">
+      <div class="spinner"></div>
+      <p>Loading results...</p>
+    </div>
+
+
+    <!-- Error -->
+    <div class="error-box" *ngIf="!loading && errorMessage">
+
+      <div class="error-icon">⚠️</div>
+
+      <h2>Unable to Load Results</h2>
+
+      <p>{{ errorMessage }}</p>
+
+      <button class="home-btn" (click)="goHome()">
+        Go Home
+      </button>
+
+    </div>
+
+
+    <!-- Results -->
+    <div
+      class="results-content"
+      *ngIf="!loading && !errorMessage"
+    >
+
+      <!-- Header -->
+      <div class="results-header">
+
+        <div class="header-icon">
+          🏆
+        </div>
+
+        <h1>Quiz Results</h1>
+
+        <p>
+          {{ creatorName }}'s Favorites Quiz
+        </p>
+
+      </div>
+
+
+      <!-- Stats -->
+      <div class="stats-card">
+
+        <div class="stat">
+          <span class="stat-number">
+            {{ totalParticipants }}
+          </span>
+
+          <span class="stat-label">
+            Participants
+          </span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-number">
+            {{ results.length }}
+          </span>
+
+          <span class="stat-label">
+            Results
+          </span>
+        </div>
+
+      </div>
+
+
+      <!-- No Results -->
+      <div
+        class="no-results"
+        *ngIf="results.length === 0"
+      >
+
+        <div class="empty-icon">
+          📋
+        </div>
+
+        <h2>No Results Yet</h2>
+
+        <p>
+          Nobody has completed your quiz yet.
+        </p>
+
+      </div>
+
+
+      <!-- Results Table -->
+      <div
+        class="table-wrapper"
+        *ngIf="results.length > 0"
+      >
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>Rank</th>
+              <th>Participant</th>
+              <th>Score</th>
+              <th>Percentage</th>
+              <th>Date</th>
+            </tr>
+
+          </thead>
+
+
+          <tbody>
+
+            <tr
+              *ngFor="let result of results"
+              [class.top-rank]="result.position <= 3"
+            >
+
+              <!-- Rank -->
+              <td class="rank-cell">
+
+                <span
+                  *ngIf="result.position === 1"
+                  class="medal"
+                >
+                  🥇
+                </span>
+
+                <span
+                  *ngIf="result.position === 2"
+                  class="medal"
+                >
+                  🥈
+                </span>
+
+                <span
+                  *ngIf="result.position === 3"
+                  class="medal"
+                >
+                  🥉
+                </span>
+
+                <span
+                  *ngIf="result.position > 3"
+                >
+                  {{ result.position }}
+                </span>
+
+              </td>
+
+
+              <!-- Name -->
+              <td class="name-cell">
+                {{ result.friendName }}
+              </td>
+
+
+              <!-- Score -->
+              <td class="score-cell">
+
+                <strong>
+                  {{ result.score }}
+                </strong>
+
+                / {{ result.totalQuestions }}
+
+              </td>
+
+
+              <!-- Percentage -->
+              <td>
+
+                <span class="percentage">
+                  {{ result.percentage }}%
+                </span>
+
+              </td>
+
+
+              <!-- Date -->
+              <td class="date-cell">
+
+                {{ formatDate(result.date) }}
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <!-- Footer Button -->
+      <div class="actions">
+
+        <button
+          class="refresh-btn"
+          (click)="loadResults()"
+        >
+          🔄 Refresh Results
+        </button>
+
+        <button
+          class="home-btn"
+          (click)="goHome()"
+        >
+          🏠 Go Home
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

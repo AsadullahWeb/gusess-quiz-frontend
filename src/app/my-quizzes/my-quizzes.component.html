@@ -1,0 +1,70 @@
+<div class="my-quizzes-page">
+
+  <div class="page-header">
+    <h1>📚 My Quizzes</h1>
+    <p>Manage your created quizzes and view your friends' results.</p>
+  </div>
+
+  <div class="empty-state" *ngIf="quizzes.length === 0">
+
+    <div class="empty-icon">📝</div>
+
+    <h2>No Quizzes Found</h2>
+
+    <p>
+      You have not created any quiz yet.
+    </p>
+
+    <button class="primary-btn" (click)="goHome()">
+      Create My Quiz
+    </button>
+
+  </div>
+
+
+  <div class="quiz-list" *ngIf="quizzes.length > 0">
+
+    <div class="quiz-card" *ngFor="let quiz of quizzes">
+
+      <div class="quiz-info">
+
+        <h2>{{ quiz.creatorName }}'s Quiz</h2>
+
+        <p>
+          Quiz ID:
+          <strong>{{ quiz.quizId }}</strong>
+        </p>
+
+        <p>
+          Created:
+          {{ quiz.createdAt | date:'medium' }}
+        </p>
+
+      </div>
+
+      <div class="quiz-actions">
+
+        <button
+          class="results-btn"
+          (click)="viewResults(quiz)">
+          📊 View Results
+        </button>
+
+        <button
+          class="take-btn"
+          (click)="takeQuiz(quiz)">
+          🎯 Open Quiz
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <button class="back-btn" (click)="goHome()">
+    ← Back to Home
+  </button>
+
+</div>
