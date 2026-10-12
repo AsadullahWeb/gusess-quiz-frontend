@@ -152,6 +152,31 @@
 
     </div>
 
+    
+<button
+  type="button"
+  (click)="viewAllParticipants()"
+  class="participants-btn">
+  View All Participants
+</button>
+
+<div *ngIf="showAllParticipants" class="participants-list">
+  <h2>All Participants Results</h2>
+
+  <p *ngIf="ranking.length === 0">
+    Abhi tak kisi ne ye quiz complete nahi kiya.
+  </p>
+
+  <div *ngFor="let result of ranking; let i = index">
+    <p>
+      {{ i + 1 }}. {{ result.friendName }}
+      — Score: {{ result.score }}/{{ result.totalQuestions }}
+      — {{ result.percentage }}%
+    </p>
+  </div>
+</div>
+
+
   </section>
 
 

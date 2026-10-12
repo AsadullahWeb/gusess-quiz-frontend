@@ -25,6 +25,7 @@ export class CreateQuizComponent {
   creatorName: string = '';
   quizCreated: boolean = false;
   shareLink: string = '';
+  isGenerating = false;
 
   creatorResultsLink: string = '';
 
@@ -180,7 +181,7 @@ export class CreateQuizComponent {
         return;
       }
     }
-
+this.isGenerating = true;
     // Create unique quiz ID
     const quizId = Date.now().toString();
 
@@ -188,6 +189,7 @@ export class CreateQuizComponent {
     const creatorKey =
       Date.now().toString(36) +
       Math.random().toString(36).substring(2, 10);
+      
 
     // Data that will be sent to backend
     const quiz = {
@@ -241,10 +243,13 @@ this.shareLink =
 
   this.quizCreated = true;
 
+  this.isGenerating = false;
+
   alert('Your quiz has been created successfully!');
 },
 
       error: (error) => {
+        this.isGenerating = false;
 
         console.error('Create Quiz Error:', error);
 

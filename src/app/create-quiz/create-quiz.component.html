@@ -304,14 +304,26 @@
     <!-- Create Button -->
     <div class="create-section">
 
-      <button
-        type="button"
-        class="create-btn"
-        (click)="saveQuiz()"
-      >
-        <span>Create My Quiz</span>
-        <span class="arrow">→</span>
-      </button>
+ 
+<div class="create-section">
+
+  <button
+    type="button"
+    class="create-btn"
+    (click)="saveQuiz()"
+    [disabled]="isGenerating">
+
+    <span>
+      {{ isGenerating ? 'Generating Your Quiz...' : 'Create My Quiz' }}
+    </span>
+
+    <span *ngIf="!isGenerating" class="arrow">→</span>
+
+    <span *ngIf="isGenerating" class="loading-spinner"></span>
+
+  </button>
+
+</div>
 
       <p>
         After creating your quiz, you'll get a shareable link.
@@ -324,7 +336,7 @@
   </div>
 
 
-  <<!-- Footer -->
+  <!-- Footer -->
 <footer class="footer">
   <p>
     Made with ❤️ by <strong>ArainDeveloper</strong>

@@ -972,4 +972,122 @@ footer strong {
 }
 
 
+
+
+
+/* View All Participants Button */
+.participants-btn {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  margin: 20px auto;
+  padding: 14px 22px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #6c5ce7, #4834d4);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(108, 92, 231, 0.25);
+  transition: all 0.3s ease;
+}
+
+.participants-btn:hover {
+  background: linear-gradient(135deg, #4834d4, #341f97);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(108, 92, 231, 0.35);
+}
+
+.participants-btn:active {
+  transform: scale(0.98);
+}
+
+/* All Participants Results */
+.participants-list {
+  width: 100%;
+  max-width: 750px;
+  margin: 25px auto;
+  padding: 24px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #e8e7ff;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(31, 41, 55, 0.08);
+  animation: participantsFadeIn 0.4s ease;
+}
+
+.participants-list h2 {
+  margin: 0 0 22px;
+  color: #34258c;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.participants-list p {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  padding: 15px 16px;
+  border: 1px solid #eeeeff;
+  border-radius: 12px;
+  background: #f8f8ff;
+  color: #272343;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.participants-list p:hover {
+  background: #efedff;
+  transform: translateX(3px);
+}
+
+/* Loading / Empty Results */
+.participants-list p:only-child {
+  justify-content: center;
+  color: #77739b;
+  text-align: center;
+}
+
+/* Small Screen Responsive Design */
+@media (max-width: 600px) {
+  .participants-btn {
+    max-width: 100%;
+    padding: 13px 16px;
+    font-size: 15px;
+  }
+
+  .participants-list {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .participants-list h2 {
+    font-size: 21px;
+  }
+
+  .participants-list p {
+    padding: 12px;
+    font-size: 13px;
+  }
+}
+
+@keyframes participantsFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
 /* MUSMDHLIFBYIWH */

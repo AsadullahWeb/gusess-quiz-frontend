@@ -52,6 +52,8 @@ export class TakeQuizComponent implements OnInit {
 
   answerChecked: boolean = false;
 
+  
+
   score: number = 0;
 
   quizId: string = '';
@@ -676,5 +678,21 @@ export class TakeQuizComponent implements OnInit {
     this.router.navigate(['/']);
 
   }
+  
+showAllParticipants = false;
+
+viewAllParticipants(): void {
+  this.quizService.getResults(this.quizId).subscribe({
+    next: (results: any[]) => {
+      this.ranking = results;
+      this.showAllParticipants = true;
+    },
+    error: (error) => {
+      console.error('Results load error:', error);
+      alert('Results load nahi huay. Dobara try karo.');
+    }
+  });
+}
+
 
 }
